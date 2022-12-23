@@ -3,26 +3,25 @@ import styled from "styled-components";
 export const OuterSliderContainer = styled.div`
     display: flex;
     align-items:center;
-    width: 200%;
+    width: max-content;
     height: 100vh;
 `
 
 export const InnerSliderContainer = styled(OuterSliderContainer)`
     height: ${props => props.height};
-    width: ${props => props.width};
-    padding: 1rem;
+    /* width: ${props => props.width}; */
 `
 
 export const ArrowContainer = styled.div`
     width: 100vw;
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
 `
 
 export const Arrow = styled.div`
     color: #ffffff;
     font-size: 3rem;
+    padding: 2rem;
     cursor: pointer;
     &:hover{
         color: #b3b2b2;
@@ -41,4 +40,6 @@ export const SlideImage = styled.div`
     border-radius: 0.2rem;
     background-size: cover;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: 1s ease-in;
+    transform: translateX(-${props => props.move * 100}%);
 `
