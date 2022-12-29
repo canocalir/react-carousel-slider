@@ -4,7 +4,7 @@ export const OuterSliderContainer = styled.div`
     display: flex;
     align-items:center;
     width: 200%;
-    height: 100vh;
+    height: 90vh;
 `
 
 export const InnerSliderContainer = styled(OuterSliderContainer)`
