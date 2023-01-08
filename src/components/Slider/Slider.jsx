@@ -1,19 +1,53 @@
-import DirectionArrow from "../DirectionArrow/DirectionArrow"
-import { ArrowContainer, InnerSliderContainer, OuterSliderContainer, SlideImage } from "../styled"
+import { useQuery } from "react-query";
+import DirectionArrow from "../DirectionArrow/DirectionArrow";
+import {
+  ArrowContainer,
+  InnerSliderContainer,
+  OuterSliderContainer,
+  SlideImage,
+} from "../styled";
+import { useState } from "react";
 
 const Slider = () => {
+  const getImagesData = async () => {
+    const url = `https://picsum.photos/v2/list`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  };
+
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const { isLoading, error, data } = useQuery("images", getImagesData);
+
+  if (isLoading) return <div>Loading</div>;
+
   return (
     <OuterSliderContainer>
-        <InnerSliderContainer height={'30rem'} width={'100vw'}>
-            <SlideImage image={'https://cdn.pixabay.com/photo/2021/12/09/18/46/forest-6858884_960_720.jpg'}>
-            <ArrowContainer>
-            <DirectionArrow type={'prev'}/>
-            <DirectionArrow type={'next'}/>
-            </ArrowContainer>
+      <InnerSliderContainer height={"30rem"} width={"100vw"}>
+        {data.map((img) => {
+          return (
+            <SlideImage key={img.id} move={imageIndex} image={img.download_url}>
+              <ArrowContainer>
+                <DirectionArrow
+                  images={data}
+                  imageIndex={imageIndex}
+                  setImageIndex={setImageIndex}
+                  type={"prev"}
+                />
+                <DirectionArrow
+                  images={data}
+                  imageIndex={imageIndex}
+                  setImageIndex={setImageIndex}
+                  type={"next"}
+                />
+              </ArrowContainer>
             </SlideImage>
-        </InnerSliderContainer>
+          );
+        })}
+      </InnerSliderContainer>
     </OuterSliderContainer>
-  )
-}
+  );
+};
 
-export default Slider
+export default Slider;
